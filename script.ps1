@@ -104,7 +104,7 @@ function Install-WindowsUpdates {
 
         # Installer les mises a jour
         $InstallResult = $Installer.Install()
-        
+
         if ($InstallResult.ResultCode -eq 2) {
             Write-Host "Les mises a jour ont ete installees avec succes."
         } else {
@@ -178,5 +178,9 @@ Install-WindowsUpdates
 
 # Etape 5 : Installer les applications avec winget
 Install-Applications
+
+# Etape 6 : Scannow
+sfc /scannow
+
 
 Write-Host "Toutes les mises a jour Windows et les applications ont ete installees, le fond d'ecran a ete applique, et le systeme a ete nettoye avec succes."
