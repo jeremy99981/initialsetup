@@ -182,5 +182,6 @@ Install-Applications
 # Etape 6 : Scannow
 sfc /scannow
 
-
+# Etape 7 : Flush DNS
+ipconfig/flushDNS
 Write-Host "Toutes les mises a jour Windows et les applications ont ete installees, le fond d'ecran a ete applique, et le systeme a ete nettoye avec succes."
