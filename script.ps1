@@ -184,4 +184,8 @@ sfc /scannow
 
 # Etape 7 : Flush DNS
 ipconfig/flushDNS
+
+# Etape 8 : Clear Windows cache
+wsreset.exe
+
 Write-Host "Toutes les mises a jour Windows et les applications ont ete installees, le fond d'ecran a ete applique, et le systeme a ete nettoye avec succes."
