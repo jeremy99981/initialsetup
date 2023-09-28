@@ -1,3 +1,23 @@
+# Fonction pour désactiver la mise en veille de l'écran
+function Disable-ScreenSaver {
+    Write-Host "Désactivation de la mise en veille de l'écran..."
+    powercfg -change -standby-timeout-ac 0
+    powercfg -change -standby-timeout-dc 0
+    powercfg -change -monitor-timeout-ac 0
+    powercfg -change -monitor-timeout-dc 0
+}
+
+# Fonction pour réactiver les paramètres par défaut de la gestion de l'alimentation
+function Restore-PowerSettings {
+    Write-Host "Restauration des paramètres par défaut de la gestion de l'alimentation..."
+    powercfg -setacvalueindex scheme_current sub_video VIDEOIDLE 600
+    powercfg -setacvalueindex scheme_current sub_processor PROCTHROTTLEMAX 100
+    powercfg -setactive scheme_current
+}
+
+# Désactiver la mise en veille de l'écran au début du script
+Disable-ScreenSaver
+
 # Vérifier si le script est exécuté en tant qu'administrateur
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Host "Ce script nécessite des privilèges administratifs. Veuillez exécuter le script en tant qu'administrateur."
@@ -116,6 +136,13 @@ function Install-Applications {
     Write-Host "Installation des applications terminée."
 }
 
+# Fonction pour vider la corbeille
+function Empty-RecycleBin {
+    Write-Host "Vidage de la corbeille en cours..."
+    Clear-RecycleBin -Force -Confirm:$false
+    Write-Host "La corbeille a été vidée avec succès."
+}
+
 # Etape 1 : Télécharger le fond d'écran
 $WallpaperUrl = "https://raw.githubusercontent.com/jeremy99981/techrevive/main/sshlwtppwxob1.webp"
 $WallpaperPath = "$env:USERPROFILE\Pictures\wallpaper.webp"
@@ -132,4 +159,10 @@ Install-WindowsUpdates
 # Etape 4 : Installer les applications avec winget
 Install-Applications
 
-Write-Host "Toutes les mises à jour Windows et les applications ont été installées, le fond d'écran a été appliqué, et le script s'est exécuté avec succès."
+# Etape 5 : Vider la corbeille
+Empty-RecycleBin
+
+# Réactiver les paramètres par défaut de la gestion de l'alimentation à la fin du script
+Restore-PowerSettings
+
+Write-Host "Toutes les mises à jour Windows et les applications ont été installées, le fond d'écran a été appliqué, la corbeille a été vidée, et le script s'est exécuté avec succès. Les paramètres de gestion de l'alimentation ont été restaurés."
